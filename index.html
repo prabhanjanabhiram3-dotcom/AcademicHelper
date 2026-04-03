@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Helper</title>
+    <!-- Link to external CSS stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Google Fonts for modern typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons library for scalable UI icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+    <!-- Top Header Navigation Header -->
+    <header class="main-header">
+        <div class="logo-container">
+            <div class="logo-icon">
+                <i class="ph ph-book-open"></i>
+            </div>
+            <div class="logo-text">
+                <h1>Academic Helper</h1>
+                <p>Your daily student dashboard</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container for Tabs & Cards -->
+    <main class="dashboard-container">
+        
+        <!-- Navigation Tabs -->
+        <nav class="tabs-nav">
+            <button class="tab-btn active" data-target="dashboard-tab">Dashboard</button>
+            <button class="tab-btn" data-target="sgpa-tab">SGPA</button>
+            <button class="tab-btn" data-target="cgpa-tab">CGPA</button>
+            <button class="tab-btn" data-target="semesters-tab">Semesters</button>
+            <button class="tab-btn" data-target="attendance-tab">Attendance</button>
+            <button class="tab-btn" data-target="pdfs-tab">PDFs</button>
+            <button class="tab-btn" data-target="notes-tab">Notes</button>
+        </nav>
+
+        <!-- Dashboard Stats Section -->
+        <section id="dashboard-tab" class="tab-pane active card dashboard-card">
+            <div class="card-header" style="text-align: left; padding-bottom: 0; margin-bottom: 0;">
+                <h2 style="font-size: 1.25rem;"><i class="ph ph-squares-four"></i> Overview Dashboard</h2>
+            </div>
+            
+            <div class="dashboard-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem;">
+                
+                <div class="stat-card" style="background-color: var(--input-bg); border: 1px solid var(--card-border); padding: 1rem; border-radius: var(--border-radius-input); text-align: center; display: flex; flex-direction: column; justify-content: center; height: 100%;">
+                    <i class="ph ph-graduation-cap" style="font-size: 1.75rem; color: var(--accent-color); margin-bottom: 0.5rem;"></i>
+                    <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Overall CGPA</p>
+                    <h3 id="dash-cgpa" style="font-size: 1.4rem; font-weight: 700; color: var(--text-primary);">N/A</h3>
+                </div>
+
+                <div class="stat-card" style="background-color: var(--input-bg); border: 1px solid var(--card-border); padding: 1rem; border-radius: var(--border-radius-input); text-align: center; display: flex; flex-direction: column; justify-content: center; height: 100%;">
+                    <i class="ph ph-books" style="font-size: 1.75rem; color: var(--accent-color); margin-bottom: 0.5rem;"></i>
+                    <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Subjects Tracked</p>
+                    <h3 id="dash-subjects" style="font-size: 1.4rem; font-weight: 700; color: var(--text-primary);">0</h3>
+                </div>
+
+                <div class="stat-card" style="background-color: var(--input-bg); border: 1px solid var(--card-border); padding: 1rem; border-radius: var(--border-radius-input); text-align: center; display: flex; flex-direction: column; justify-content: center; height: 100%;">
+                    <i class="ph ph-calendar-check" style="font-size: 1.75rem; color: var(--accent-color); margin-bottom: 0.5rem;"></i>
+                    <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Avg Attendance</p>
+                    <h3 id="dash-attendance" style="font-size: 1.4rem; font-weight: 700; color: var(--text-primary);">0%</h3>
+                    <p id="dash-att-status" style="font-size: 0.75rem; margin-top: 0.25rem; font-weight: 500; color: var(--text-secondary);">-</p>
+                </div>
+
+                <div class="stat-card" style="background-color: var(--input-bg); border: 1px solid var(--card-border); padding: 1rem; border-radius: var(--border-radius-input); text-align: center; display: flex; flex-direction: column; justify-content: center; height: 100%;">
+                    <i class="ph ph-file-pdf" style="font-size: 1.75rem; color: var(--accent-color); margin-bottom: 0.5rem;"></i>
+                    <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Saved PDFs</p>
+                    <h3 id="dash-pdfs" style="font-size: 1.4rem; font-weight: 700; color: var(--text-primary);">0</h3>
+                </div>
+
+            </div>
+
+            <div class="latest-note-widget" style="background-color: var(--input-bg); border: 1px solid var(--card-border); padding: 1rem 1.25rem; border-radius: var(--border-radius-input);">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; color: var(--text-secondary);">
+                    <i class="ph ph-clock"></i>
+                    <h4 style="font-size: 0.85rem; font-weight: 500; margin: 0;">Latest Note</h4>
+                </div>
+                <div id="dash-latest-note" style="font-size: 0.95rem; line-height: 1.4; color: var(--text-primary);">No notes added yet.</div>
+            </div>
+        </section>
+        
+        <!-- SGPA Calculator Section -->
+        <section id="sgpa-tab" class="tab-pane card sgpa-card">
+            <div class="card-header">
+                <h2><i class="ph ph-calculator"></i> SGPA Calculator</h2>
+                <p>Calculate your Semester Grade Point Average</p>
+            </div>
+            
+            <div class="input-grid sgpa-inputs">
+                <div class="input-group">
+                    <label for="sub-name">Subject Name</label>
+                    <input type="text" id="sub-name" placeholder="e.g., Mathematics">
+                </div>
+                <div class="input-group">
+                    <label for="sub-credits">Credits</label>
+                    <input type="number" id="sub-credits" placeholder="e.g., 4" min="1">
+                </div>
+                <div class="input-group">
+                    <label for="sub-grade">Grade</label>
+                    <!-- Predefined 10-point scale grade options -->
+                    <select id="sub-grade">
+                        <option value="" disabled selected>Select grade</option>
+                        <option value="10">O (10)</option>
+                        <option value="9">A+ (9)</option>
+                        <option value="8">A (8)</option>
+                        <option value="7">B+ (7)</option>
+                        <option value="6">B (6)</option>
+                        <option value="5">C (5)</option>
+                        <option value="4">P (4)</option>
+                        <option value="0">F (0)</option>
+                    </select>
+                </div>
+            </div>
+
+            <button id="add-subject-btn" class="secondary-btn">
+                <i class="ph ph-plus"></i> Add Subject
+            </button>
+
+            <!-- Container for added subjects list -->
+            <div class="subject-list-container">
+                <ul id="subject-list"></ul>
+            </div>
+
+            <!-- SGPA result display area -->
+            <div class="sgpa-result-area">
+                <div id="sgpa-actions" class="button-group" style="display:none;">
+                    <button id="calc-sgpa-btn" class="primary-btn flex-1">Calculate SGPA</button>
+                    <button id="reset-sgpa-btn" class="dark-btn">Reset</button>
+                </div>
+                <div id="sgpa-result-display" class="result-display hidden">
+                    <span class="result-label">Your SGPA:</span>
+                    <span id="sgpa-value" class="result-value">0.00</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- CGPA Calculator Section -->
+        <section id="cgpa-tab" class="tab-pane card cgpa-card">
+            <div class="card-header">
+                <h2><i class="ph ph-graduation-cap"></i> CGPA Calculator</h2>
+                <p>Calculate your Cumulative Grade Point Average</p>
+            </div>
+
+            <div class="input-grid cgpa-inputs">
+                <div class="input-group">
+                    <label for="prev-cgpa">Previous CGPA</label>
+                    <input type="number" id="prev-cgpa" placeholder="e.g., 8.5" step="0.01" min="0" max="10">
+                </div>
+                <div class="input-group">
+                    <label for="prev-credits">Previous Total Credits</label>
+                    <input type="number" id="prev-credits" placeholder="e.g., 60" min="1">
+                </div>
+                <div class="input-group">
+                    <label for="curr-sgpa">Current Semester SGPA</label>
+                    <input type="number" id="curr-sgpa" placeholder="e.g., 9.0" step="0.01" min="0" max="10">
+                </div>
+                <div class="input-group">
+                    <label for="curr-credits">Current Semester Credits</label>
+                    <input type="number" id="curr-credits" placeholder="e.g., 24" min="1">
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button id="calc-cgpa-btn" class="primary-btn flex-1">
+                    <i class="ph ph-calculator"></i> Calculate CGPA
+                </button>
+                <button id="reset-cgpa-btn" class="dark-btn">Reset</button>
+            </div>
+
+            <div id="cgpa-result-display" class="result-display hidden">
+                <span class="result-label">Your final CGPA:</span>
+                <span id="cgpa-value" class="result-value">0.00</span>
+            </div>
+        </section>
+
+        <!-- Semester Tracker Section -->
+        <section id="semesters-tab" class="tab-pane card semester-card">
+            <div class="card-header">
+                <h2><i class="ph ph-list-numbers"></i> Semester Tracker</h2>
+                <p>Track your SGPAs and calculate overall CGPA</p>
+            </div>
+
+            <div class="input-grid attendance-inputs">
+                <div class="input-group">
+                    <label for="sem-name">Semester Name</label>
+                    <input type="text" id="sem-name" placeholder="e.g., Semester 1">
+                </div>
+                <div class="input-group">
+                    <label for="sem-sgpa">SGPA</label>
+                    <input type="number" id="sem-sgpa" placeholder="e.g., 8.5" step="0.01" min="0" max="10">
+                </div>
+            </div>
+            
+            <div class="button-group" style="margin-top: 0.5rem;">
+                <button id="add-sem-btn" class="secondary-btn"><i class="ph ph-plus"></i> Add Semester</button>
+                <button id="reset-sem-btn" class="dark-btn">Reset All</button>
+            </div>
+
+            <div class="subject-list-container">
+                <ul id="semester-list"></ul>
+            </div>
+
+            <div id="sem-result-display" class="result-display centered" style="display: none; margin-top: 1rem;">
+                <span class="result-label" style="align-self: center; margin-bottom: 0.5rem;">Average CGPA</span>
+                <h3 id="sem-cgpa-value" class="attendance-percentage">0.00</h3>
+                <p class="attendance-status text-secondary" style="color: var(--text-secondary);">Based on all semesters</p>
+            </div>
+        </section>
+
+        <!-- Attendance Calculator Section -->
+        <section id="attendance-tab" class="tab-pane card attendance-card">
+            <div class="card-header">
+                <h2><i class="ph ph-calendar-check"></i> Attendance Calculator</h2>
+                <p>Track your attendance percentage</p>
+            </div>
+
+            <div class="input-grid sgpa-inputs">
+                <div class="input-group">
+                    <label for="att-sub-name">Subject</label>
+                    <input type="text" id="att-sub-name" placeholder="e.g., Physics">
+                </div>
+                <div class="input-group">
+                    <label for="total-classes">Total</label>
+                    <input type="number" id="total-classes" placeholder="e.g., 50" min="1">
+                </div>
+                <div class="input-group">
+                    <label for="attended-classes">Attended</label>
+                    <input type="number" id="attended-classes" placeholder="e.g., 40" min="0">
+                </div>
+            </div>
+            
+            <div class="button-group" style="margin-top: 0.5rem;">
+                <button id="add-att-subject-btn" class="secondary-btn"><i class="ph ph-plus"></i> Add Subject</button>
+                <button id="reset-attendance-btn" class="dark-btn">Reset</button>
+            </div>
+
+            <div class="subject-list-container">
+                <ul id="att-subject-list"></ul>
+            </div>
+
+            <div id="attendance-result-display" class="result-display centered" style="display: none; margin-top: 1rem;">
+                <span class="result-label" style="align-self: center; margin-bottom: 0.5rem;">Overall Attendance</span>
+                <h3 id="attendance-value" class="attendance-percentage">0%</h3>
+                <p id="attendance-message" class="attendance-status">Enter values above</p>
+            </div>
+        </section>
+
+        <!-- PDF Manager Section -->
+        <section id="pdfs-tab" class="tab-pane card pdf-card">
+            <div class="card-header">
+                <h2><i class="ph ph-file-pdf"></i> PDF Manager</h2>
+                <p>Organize your study materials and links</p>
+            </div>
+
+            <div class="input-grid" style="grid-template-columns: 1fr 1fr 2fr; align-items: end;">
+                <div class="input-group">
+                    <label for="pdf-subject">Subject</label>
+                    <input type="text" id="pdf-subject" placeholder="e.g., Physics">
+                </div>
+                <div class="input-group">
+                    <label for="pdf-name">PDF Name</label>
+                    <input type="text" id="pdf-name" placeholder="e.g., Chapter 1">
+                </div>
+                <div class="input-group" style="grid-column: 1 / -1;">
+                    <label for="pdf-link">Link</label>
+                    <input type="url" id="pdf-link" placeholder="e.g., https://drive.google.com/...">
+                </div>
+            </div>
+            
+            <div class="button-group" style="margin-top: 0.5rem;">
+                <button id="add-pdf-btn" class="secondary-btn"><i class="ph ph-plus"></i> Add PDF</button>
+            </div>
+
+            <div class="subject-list-container" style="max-height: 250px;">
+                <div id="pdf-list-container"></div>
+            </div>
+        </section>
+
+        <!-- Daily Learning Notes Section -->
+        <section id="notes-tab" class="tab-pane card notes-card">
+            <div class="card-header">
+                <h2><i class="ph ph-book-bookmark"></i> Daily Learning Notes</h2>
+                <p>Keep track of what you learn every day</p>
+            </div>
+
+            <div class="notes-input-area">
+                <textarea id="note-input" placeholder="What did you learn today? Write your notes here..."></textarea>
+                <div style="display:flex; justify-content: flex-end; margin-top: 10px;">
+                    <button id="save-note-btn" class="primary-btn">Save Note</button>
+                </div>
+            </div>
+
+            <div class="saved-notes-container">
+                <ul id="notes-list"></ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- Link to external JavaScript file -->
+    <script src="script.js"></script>
+</body>
+</html>
